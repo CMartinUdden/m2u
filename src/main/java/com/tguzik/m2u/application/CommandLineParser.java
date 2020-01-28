@@ -23,7 +23,10 @@ public class CommandLineParser {
             final CommandLine cmd = parser.parse( options, argv );
             
             String filter = cmd.getOptionValue(M2UConstants.JUNIT_FILTER_SWITCH_NAME);
+            String decorator = cmd.getOptionValue(M2UConstants.JUNIT_DECORATOR_SWITCH_NAME);
+
             ControlParams.setParams(M2UConstants.JUNIT_FILTER_SWITCH_NAME, filter!=null?filter.toLowerCase():M2UConstants.FALSE);
+            ControlParams.setParams(M2UConstants.JUNIT_DECORATOR_SWITCH_NAME, decorator!=null?decorator.toLowerCase():M2UConstants.JUNIT_DEFAULT_DECORATOR);
             
             return new ProgramOptions( cmd.getOptionValue( CMD_OPTION_INPUT ),
                                        cmd.getOptionValue( CMD_OPTION_OUTPUT ),
@@ -65,9 +68,17 @@ public class CommandLineParser {
         options.addOption( Option.builder()
 				                .required( false )
 				                .hasArg()
-				                .argName( "JUNIT-FILTER_SWITCH-NAME")
+				                .argName( "true|false")
 				                .longOpt( M2UConstants.JUNIT_FILTER_SWITCH_NAME )
-				                .desc( "Name for the junit test switch (default: false)" )
+				                .desc( "Filter tests based on decorator (default: false)" )
+				                .build() );
+
+        options.addOption( Option.builder()
+				                .required( false )
+				                .hasArg()
+				                .argName( "DECORATOR")
+				                .longOpt( M2UConstants.JUNIT_DECORATOR_SWITCH_NAME )
+				                .desc( "Name for the junit decorator (default: "+M2UConstants.JUNIT_DEFAULT_DECORATOR+")" )
 				                .build() );
 
         return options;

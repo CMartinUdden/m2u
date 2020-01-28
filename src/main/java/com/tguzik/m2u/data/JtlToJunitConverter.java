@@ -27,9 +27,11 @@ public class JtlToJunitConverter implements BiFunction<String, TestResults, Test
         singleSuite.setName( testSuiteName );
 
         String filter = ControlParams.getParam( M2UConstants.JUNIT_FILTER_SWITCH_NAME );
+        String decorator = ControlParams.getParam( M2UConstants.JUNIT_DECORATOR_SWITCH_NAME );
+
         Predicate<BaseSample> p = a -> true;
         if ( filter != null && filter.equalsIgnoreCase( M2UConstants.TRUE ) ) {
-            p = a -> a.getLabel().contains( M2UConstants.JUNIT_DECORATOR );
+            p = a -> a.getLabel().contains( decorator );
         }
 
         safe( input.getSamples() ).stream().filter( p ).map( this::convertSample ).forEach( singleSuite::addTestCase );
@@ -51,8 +53,9 @@ public class JtlToJunitConverter implements BiFunction<String, TestResults, Test
         tc.setClassname( input.getThreadName() );
 
         String filter = ControlParams.getParam( M2UConstants.JUNIT_FILTER_SWITCH_NAME );
+        String decorator = ControlParams.getParam( M2UConstants.JUNIT_DECORATOR_SWITCH_NAME );
         if ( filter != null && filter.equalsIgnoreCase( M2UConstants.TRUE ) ) {
-            tc.setTestName( input.getLabel().replace( M2UConstants.JUNIT_DECORATOR, M2UConstants.BLANK ) );
+            tc.setTestName( input.getLabel().replace( decorator, M2UConstants.BLANK ) );
         }
         else {
             tc.setTestName( input.getThreadName() );

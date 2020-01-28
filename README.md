@@ -41,3 +41,5 @@ If `--filter true`, only those samples will be converted which have `@junit` as 
 
 ## License
 This software is available under GNU GPL license. Please see file `LICENSE` for details.
+origin	https://github.com/tguzik/m2u.git (fetch)
+origin	https://github.com/tguzik/m2u.git (push)
